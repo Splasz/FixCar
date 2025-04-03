@@ -10,10 +10,14 @@ type Zlecenie = {
   model: string;
   usluga: string;
   status: string;
+  data_zakonczenia: string;
+  dni_do_konca: number;
 };
 
 function DashboardTasks() {
-  const [zlecenia, setZlecenia] = useState<Zlecenie[]>([]);
+  const [zlecenia_nowe, setZlecenia_nowe] = useState<Zlecenie[]>([]);
+  const [zlecenia_pilne, setZlecenia_pilne] = useState<Zlecenie[]>([]);
+  const [zlecenia_zalegle, setZlecenia_zalegle] = useState<Zlecenie[]>([]);
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -40,7 +44,17 @@ function DashboardTasks() {
   useEffect(() => {
     fetch("http://localhost/react_backend/tasksNew.php")
       .then((response) => response.json())
-      .then((data) => setZlecenia(data))
+      .then((data) => setZlecenia_nowe(data))
+      .catch((error) => console.error("Błąd:", error));
+
+    fetch("http://localhost/react_backend/tasksImportant.php")
+      .then((response) => response.json())
+      .then((data) => setZlecenia_pilne(data))
+      .catch((error) => console.error("Błąd:", error));
+
+    fetch("http://localhost/react_backend/tasksOver.php")
+      .then((response) => response.json())
+      .then((data) => setZlecenia_zalegle(data))
       .catch((error) => console.error("Błąd:", error));
   }, []);
 
@@ -61,7 +75,43 @@ function DashboardTasks() {
             </Tab>
           </TabList>
           <TabPanels className="text-xl flex gap-2.5 p-2.5 p-">
-            <TabPanel>Content 1</TabPanel>
+            <TabPanel>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Usługa</th>
+                    <th>Status</th>
+                    <th>Koniec Za</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {zlecenia_pilne.map((z) => (
+                    <tr key={z.zlecenia_id}>
+                      <td>ZL/{z.zlecenia_id}</td>
+                      <td>{z.imie}</td>
+                      <td>{z.nazwisko}</td>
+                      <td>{z.marka}</td>
+                      <td>{z.model}</td>
+                      <td>{z.usluga}</td>
+                      <td>
+                        <div
+                          className="status w-fit p-1 rounded-2xl"
+                          style={getStatusStyle(z.status)}
+                        >
+                          {z.status}
+                        </div>
+                      </td>
+                      <td>{z.dni_do_konca} dni</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </TabPanel>
             <TabPanel>
               <table>
                 <thead>
@@ -76,7 +126,7 @@ function DashboardTasks() {
                   </tr>
                 </thead>
                 <tbody>
-                  {zlecenia.map((z) => (
+                  {zlecenia_nowe.map((z) => (
                     <tr key={z.zlecenia_id}>
                       <td>ZL/{z.zlecenia_id}</td>
                       <td>{z.imie}</td>
@@ -97,7 +147,43 @@ function DashboardTasks() {
                 </tbody>
               </table>
             </TabPanel>
-            <TabPanel>Content 3</TabPanel>
+            <TabPanel>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Usługa</th>
+                    <th>Status</th>
+                    <th>Data Zakończenia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {zlecenia_zalegle.map((z) => (
+                    <tr key={z.zlecenia_id}>
+                      <td>ZL/{z.zlecenia_id}</td>
+                      <td>{z.imie}</td>
+                      <td>{z.nazwisko}</td>
+                      <td>{z.marka}</td>
+                      <td>{z.model}</td>
+                      <td>{z.usluga}</td>
+                      <td>
+                        <div
+                          className="status w-fit p-1 rounded-2xl"
+                          style={getStatusStyle(z.status)}
+                        >
+                          {z.status}
+                        </div>
+                      </td>
+                      <td>{z.data_zakonczenia}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </TabPanel>
           </TabPanels>
         </TabGroup>
       </div>
