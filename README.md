@@ -1,56 +1,83 @@
-# 🚗 Car Workshop Management System
+# FixCar - Service Management System
 
-A comprehensive web application for managing automotive repair shop operations, from customer and vehicle tracking to service orders and inventory.
+## Overview
 
-## ✨ Features
+FixCar is a web application for managing car service orders. The system allows users to add, view, and update service requests for vehicles. It uses React for the frontend and PHP with MySQL for the backend, running on XAMPP.
 
-### Dashboard
+## Features
 
-- **Real-time stats**: Today's orders, revenue, and urgent tasks
-- **Priority-based view**:
-  - Upcoming deadlines (due in ≤2 days)
-  - New orders (received today)
-  - Overdue services
-- Visual charts for monthly performance
+- Add new service orders
+- View existing orders
+- Update order status
+- Manage vehicle and client data
 
-### Core Modules
+## Technologies Used
 
-| Module    | Key Functions                       |
-| --------- | ----------------------------------- |
-| Customers | Client database, vehicle history    |
-| Orders    | Service tracking, status workflow   |
-| Vehicles  | VIN lookup, maintenance schedules   |
-| Services  | Price lists, service templates      |
-| Inventory | Parts stock alerts, supplier orders |
-| Employees | Work schedules, role-based access   |
+- **Frontend:** React, TypeScript
+- **Backend:** PHP (REST API)
+- **Database:** MySQL
+- **Server:** XAMPP (Apache, MySQL, PHP)
 
-## 🛠️ Tech Stack
+## Installation
 
-- **Backend**: PHP 8.2 + Laravel 10 (or Node.js/Express alternative)
-- **Frontend**: Vue.js 3 + Tailwind CSS
-- **Database**: MySQL (with schema provided in `/database`)
-- **Integrations**:
-  - VIN decoding API
-  - SMS/email notifications (Twilio, Mailgun)
+### Prerequisites
 
-## 📊 Database Schema
+- XAMPP installed on your local machine
+- Node.js and npm installed
 
-![DB Schema](docs/schema.png)  
-_(Simplified diagram - see full schema in `docs/`)_
+### Backend Setup
 
-## 🚀 Installation
+1. Start XAMPP and enable **Apache** and **MySQL**.
+2. Import the `FixCar.sql` database schema into MySQL (via phpMyAdmin or CLI).
+3. Place the PHP files in the `htdocs` directory (e.g., `C:\xampp\htdocs\fixcar`).
+4. Ensure `add_order.php` is accessible at `http://localhost/fixcar/add_order.php`.
 
-```bash
-# Clone repo
-git clone https://github.com/yourrepo/workshop-system.git
+### Frontend Setup
 
-# Install dependencies
-composer install
-npm install
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/yourusername/fixcar.git
+   cd fixcar
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the React application:
+   ```sh
+   npm start
+   ```
+4. Open `http://localhost:3000` in your browser.
 
-# Configure
-cp .env.example .env
+## API Endpoints
 
-# Run migrations
-php artisan migrate --seed
+### Add Order
+
+**Endpoint:** `POST http://localhost/fixcar/add_order.php`
+
+**Request Body:**
+
+```json
+{
+  "pojazd_id": "1",
+  "pracownik_id": "2",
+  "opis_problemu": "Engine noise issue"
+}
 ```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Order added successfully"
+}
+```
+
+## Contributing
+
+If you'd like to contribute, please fork the repository and submit a pull request with your improvements.
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
