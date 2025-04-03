@@ -1,54 +1,56 @@
-# React + TypeScript + Vite
+# 🚗 Car Workshop Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive web application for managing automotive repair shop operations, from customer and vehicle tracking to service orders and inventory.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Dashboard
 
-## Expanding the ESLint configuration
+- **Real-time stats**: Today's orders, revenue, and urgent tasks
+- **Priority-based view**:
+  - Upcoming deadlines (due in ≤2 days)
+  - New orders (received today)
+  - Overdue services
+- Visual charts for monthly performance
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Core Modules
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+| Module    | Key Functions                       |
+| --------- | ----------------------------------- |
+| Customers | Client database, vehicle history    |
+| Orders    | Service tracking, status workflow   |
+| Vehicles  | VIN lookup, maintenance schedules   |
+| Services  | Price lists, service templates      |
+| Inventory | Parts stock alerts, supplier orders |
+| Employees | Work schedules, role-based access   |
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Backend**: PHP 8.2 + Laravel 10 (or Node.js/Express alternative)
+- **Frontend**: Vue.js 3 + Tailwind CSS
+- **Database**: MySQL (with schema provided in `/database`)
+- **Integrations**:
+  - VIN decoding API
+  - SMS/email notifications (Twilio, Mailgun)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 📊 Database Schema
+
+![DB Schema](docs/schema.png)  
+_(Simplified diagram - see full schema in `docs/`)_
+
+## 🚀 Installation
+
+```bash
+# Clone repo
+git clone https://github.com/yourrepo/workshop-system.git
+
+# Install dependencies
+composer install
+npm install
+
+# Configure
+cp .env.example .env
+
+# Run migrations
+php artisan migrate --seed
 ```
