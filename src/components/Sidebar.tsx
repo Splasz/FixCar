@@ -7,6 +7,7 @@ import { LuWarehouse } from "react-icons/lu";
 import { TbPigMoney } from "react-icons/tb";
 import { GoGear } from "react-icons/go";
 
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
 function Sidebar() {
@@ -22,20 +23,23 @@ function Sidebar() {
         <nav>
           <ul className="flex flex-col gap-6">
             <li>
-              <button className="sideBar bg-primary text-background">
+              <Link
+                to="dashboard"
+                className="sideBar bg-primary text-background"
+              >
                 <div>
                   <GoHome />
                 </div>
                 <div>Dashboard</div>
-              </button>
+              </Link>
             </li>
             <li>
-              <button className="sideBar">
+              <Link to="/zlecenia" className="sideBar">
                 <div>
                   <MdOutlineTask />
                 </div>
                 <div>Zlecenia</div>
-              </button>
+              </Link>
             </li>
             <li>
               <button className="sideBar">
