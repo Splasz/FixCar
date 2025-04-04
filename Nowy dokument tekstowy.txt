@@ -1,0 +1,64 @@
+<li>
+              <Link
+                to="dashboard"
+                onClick={() => setActivePage("dashboard")}
+                className={`sideBar ${
+                  activePage === "dashboard"
+                    ? "active bg-primary text-background"
+                    : ""
+                }`}
+              >
+                <div>
+                  <GoHome />
+                </div>
+                <div>Dashboard</div>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/zlecenia"
+                onClick={() => setActivePage("zlecenia")}
+                className={`sideBar ${
+                  activePage === "zlecenia"
+                    ? "active bg-primary text-background"
+                    : ""
+                }`}
+              >
+                <div>
+                  <MdOutlineTask />
+                </div>
+                <div>Zlecenia</div>
+              </Link>
+            </li>
+            <li>
+              <button className="sideBar">
+                <div>
+                  <BsPerson />
+                </div>
+                <div>Klienci</div>
+              </button>
+            </li>
+            <li>
+              <button className="sideBar">
+                <div>
+                  <LuWarehouse />
+                </div>
+                <div>Magazyn</div>
+              </button>
+            </li>
+            <li>
+              <button className="sideBar">
+                <div>
+                  <TbPigMoney />
+                </div>
+                <div>Finanse</div>
+              </button>
+            </li>
+            <li>
+              <button className="sideBar">
+                <div>
+                  <GoGear />
+                </div>
+                <div>Ustawienia</div>
+              </button>
+            </li>

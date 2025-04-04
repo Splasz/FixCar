@@ -10,6 +10,45 @@ import { GoGear } from "react-icons/go";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
+const sidebarItems = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: <GoHome />,
+    id: "dashboard",
+  },
+  {
+    name: "Zlecenia",
+    path: "/zlecenia",
+    icon: <MdOutlineTask />,
+    id: "zlecenia",
+  },
+  {
+    name: "Klienci",
+    path: "/klienci",
+    icon: <BsPerson />,
+    id: "klienci",
+  },
+  {
+    name: "Magazyn",
+    path: "/magazyn",
+    icon: <LuWarehouse />,
+    id: "magazyn",
+  },
+  {
+    name: "Finanse",
+    path: "/finanse",
+    icon: <TbPigMoney />,
+    id: "finanse",
+  },
+  {
+    name: "Ustawienia",
+    path: "/ustawienia",
+    icon: <GoGear />,
+    id: "ustawienia",
+  },
+];
+
 type SidebarProps = {
   activePage: string;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
@@ -27,70 +66,22 @@ function Sidebar({ activePage, setActivePage }: SidebarProps) {
       <div className="h-full p-5 pt-10">
         <nav>
           <ul className="flex flex-col gap-6">
-            <li>
-              <Link
-                to="dashboard"
-                onClick={() => setActivePage("dashboard")}
-                className={`sideBar ${
-                  activePage === "dashboard"
-                    ? "active bg-primary text-background"
-                    : ""
-                }`}
-              >
-                <div>
-                  <GoHome />
-                </div>
-                <div>Dashboard</div>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/zlecenia"
-                onClick={() => setActivePage("zlecenia")}
-                className={`sideBar ${
-                  activePage === "zlecenia"
-                    ? "active bg-primary text-background"
-                    : ""
-                }`}
-              >
-                <div>
-                  <MdOutlineTask />
-                </div>
-                <div>Zlecenia</div>
-              </Link>
-            </li>
-            <li>
-              <button className="sideBar">
-                <div>
-                  <BsPerson />
-                </div>
-                <div>Klienci</div>
-              </button>
-            </li>
-            <li>
-              <button className="sideBar">
-                <div>
-                  <LuWarehouse />
-                </div>
-                <div>Magazyn</div>
-              </button>
-            </li>
-            <li>
-              <button className="sideBar">
-                <div>
-                  <TbPigMoney />
-                </div>
-                <div>Finanse</div>
-              </button>
-            </li>
-            <li>
-              <button className="sideBar">
-                <div>
-                  <GoGear />
-                </div>
-                <div>Ustawienia</div>
-              </button>
-            </li>
+            {sidebarItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  to={item.path}
+                  onClick={() => setActivePage(item.id)}
+                  className={`sideBar ${
+                    activePage === item.id
+                      ? "active bg-primary text-background"
+                      : ""
+                  }`}
+                >
+                  <div>{item.icon}</div>
+                  <div>{item.name}</div>
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
