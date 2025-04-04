@@ -10,7 +10,12 @@ import { GoGear } from "react-icons/go";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
-function Sidebar() {
+type SidebarProps = {
+  activePage: string;
+  setActivePage: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function Sidebar({ activePage, setActivePage }: SidebarProps) {
   return (
     <div className="w-2xs h-dvh flex flex-col p-2.5 gap-2.5 justify-between text-2xl">
       <div className="flex p-2.5 gap-2.5">
@@ -25,7 +30,12 @@ function Sidebar() {
             <li>
               <Link
                 to="dashboard"
-                className="sideBar bg-primary text-background"
+                onClick={() => setActivePage("dashboard")}
+                className={`sideBar ${
+                  activePage === "dashboard"
+                    ? "active bg-primary text-background"
+                    : ""
+                }`}
               >
                 <div>
                   <GoHome />
@@ -34,7 +44,15 @@ function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link to="/zlecenia" className="sideBar">
+              <Link
+                to="/zlecenia"
+                onClick={() => setActivePage("zlecenia")}
+                className={`sideBar ${
+                  activePage === "zlecenia"
+                    ? "active bg-primary text-background"
+                    : ""
+                }`}
+              >
                 <div>
                   <MdOutlineTask />
                 </div>

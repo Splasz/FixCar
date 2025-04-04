@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.sideBar:hover {
+.sideBar:hover:not(.active) {
   background-color: rgba(33, 37, 41, 0.05);
   cursor: pointer;
 }
