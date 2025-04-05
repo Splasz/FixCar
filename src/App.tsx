@@ -2,8 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import DashboardPage from "./pages/DashboardPage";
-import TasksPage from "./pages/tasksPage";
 import { useState } from "react";
+import TasksPage from "./pages/TasksPage";
+import AddButton from "./components/AddButton";
 
 function App() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -23,6 +24,7 @@ function App() {
             </Routes>
           </div>
         </div>
+        <AddButton />
       </Router>
     </>
   );
