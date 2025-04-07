@@ -7,21 +7,19 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { useState } from "react";
-import Overlay from "./Overlay";
 import "./AddButton.css";
-import { Textarea } from "@headlessui/react";
-import { FaCheck } from "react-icons/fa6";
+import InputClientOverlay from "../features/client/InputClientOverlay";
+import { useState } from "react";
 
 function AddButton() {
-  const [rotated, setRotated] = useState(false);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [isClientOverlayOpen, setIsClientOverlayOpen] = useState(false);
+  const [isTasksOverlayOpen, setIsTasksOverlayOpen] = useState(false);
 
   return (
     <>
       <Menu>
         <MenuButton
-          onClick={() => setRotated(!rotated)}
+          // onClick={() => setRotated(!rotated)}
           className={`right-5 bottom-5 absolute w-fit bg-primary text-background p-2.5 rounded-full text-4xl pr-5 pl-5 hover:opacity-90 hover:cursor-pointer`}
         >
           +
@@ -34,7 +32,7 @@ function AddButton() {
           <MenuItem>
             <Button
               className="flex items-center p-3 w-full data-[focus]:bg-highlight rounded-2xl"
-              onClick={() => setIsOverlayOpen(!isOverlayOpen)}
+              onClick={() => setIsClientOverlayOpen(!isClientOverlayOpen)}
             >
               <div className="pr-2.5">
                 <BsPerson />
@@ -43,7 +41,10 @@ function AddButton() {
             </Button>
           </MenuItem>
           <MenuItem>
-            <Button className="flex items-center p-3 w-full data-[focus]:bg-highlight rounded-2xl">
+            <Button
+              className="flex items-center p-3 w-full data-[focus]:bg-highlight rounded-2xl"
+              onClick={() => setIsTasksOverlayOpen(!isTasksOverlayOpen)}
+            >
               <div className="pr-2.5">
                 <MdOutlineTask />
               </div>
@@ -52,73 +53,14 @@ function AddButton() {
           </MenuItem>
         </MenuItems>
       </Menu>
-      <Overlay
-        isOpen={isOverlayOpen}
-        onClose={() => setIsOverlayOpen(!isOverlayOpen)}
-      >
-        <div className="flex flex-col gap-2.5">
-          <div className="border-b-1 border-highlight text-2xl">
-            Dodaj Nowego Klienta
-          </div>
-          <form className="flex flex-col gap-5">
-            <div className="flex gap-3.5">
-              <label className="flex flex-col">
-                <span className=" after:ml-0.5 after:text-red-500 after:content-['*']">
-                  Imię
-                </span>
-                <input placeholder="Jan" type="text" className="client"></input>
-              </label>
-
-              <label className="flex flex-col">
-                <span className="after:ml-0.5 after:text-red-500 after:content-['*']">
-                  Nazwisko
-                </span>
-                <input
-                  placeholder="Kowalski"
-                  type="text"
-                  className="client"
-                ></input>
-              </label>
-            </div>
-            <div>
-              <label className="flex flex-col">
-                Telefon
-                <input
-                  placeholder="+48"
-                  maxLength={9}
-                  type="text"
-                  className="client w-1/2"
-                ></input>
-              </label>
-            </div>
-            <div>
-              <label className="flex flex-col">
-                E-mail
-                <input
-                  placeholder="example@email.com"
-                  type="email"
-                  className="client w-1/2"
-                ></input>
-              </label>
-            </div>
-            <div>
-              <label className="flex flex-col">
-                Notatka
-                <Textarea
-                  placeholder="..."
-                  className="client_note h-24"
-                ></Textarea>
-              </label>
-            </div>
-            <div>
-              <button className="flex items-center gap-2.5 text-xl p-2 rounded-2xl text-background bg-primary w-1/3 cursor-pointer">
-                <FaCheck />
-                Dodaj
-              </button>
-            </div>
-          </form>
-        </div>
-      </Overlay>
+      <InputClientOverlay
+        isOpen={isClientOverlayOpen}
+        onClose={() => setIsClientOverlayOpen(false)}
+      />
+      <InputClientOverlay
+        isOpen={isTasksOverlayOpen}
+        onClose={() => setIsTasksOverlayOpen(false)}
+      />
     </>
   );
 }
