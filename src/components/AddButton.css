@@ -1,0 +1,22 @@
+.client {
+  border-radius: 1rem;
+  border: 2px solid gray;
+  outline: none;
+  padding-left: 0.75rem;
+  height: 2.2rem;
+}
+
+.client_note {
+  border-radius: 1rem;
+  border: 2px solid gray;
+  outline: none;
+  padding-left: 0.75rem;
+}
+
+.client:focus {
+  border-color: var(--color-primary);
+}
+
+.client_note:focus {
+  border-color: var(--color-primary);
+}
