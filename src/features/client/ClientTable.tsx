@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 
 type Info = {
+  klient_id: number;
   imie: string;
   nazwisko: string;
 };
+type dataType = {
+  onClientSelect: (newValue: number) => void;
+};
 
-function ClientTable() {
-  const [clientInfo, setClientInfo] = useState<Info[]>([]);
+function ClientTable({ onClientSelect }: dataType) {
+  const [clients, setClients] = useState<Info[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost/react_backend/allTasks.php")
+    fetch("http://localhost/react_backend/allClients.php")
       .then((response) => response.json())
-      .then((data) => setClientInfo(data))
+      .then((data) => setClients(data))
       .catch((error) => console.error("Błąd:", error));
   }, []);
 
@@ -27,10 +31,14 @@ function ClientTable() {
             </tr>
           </thead>
           <tbody>
-            {clientInfo.map((z, index) => (
-              <tr key={index}>
-                <td>{z.imie}</td>
-                <td>{z.nazwisko}</td>
+            {clients.map((z) => (
+              <tr
+                onClick={() => onClientSelect(z.klient_id)}
+                className="rounded-2xl hover:bg-highlight hover:cursor-pointer"
+                key={z.klient_id}
+              >
+                <td className="rounded-s-2xl">{z.imie}</td>
+                <td className="rounded-e-2xl">{z.nazwisko}</td>
               </tr>
             ))}
           </tbody>

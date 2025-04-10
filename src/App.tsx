@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import { useState } from "react";
 import TasksPage from "./pages/TasksPage";
 import AddButton from "./components/AddButton";
+import ClientPage from "./pages/ClientPage";
 
 function App() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -21,6 +22,7 @@ function App() {
             <Routes>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/zlecenia" element={<TasksPage />} />
+              <Route path="/klienci" element={<ClientPage />} />
             </Routes>
           </div>
         </div>
