@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 type ClientInfo = {
   imie: string;
@@ -16,9 +17,10 @@ type ClientInfo = {
 
 type dataType = {
   clientId: number;
+  isClosed: (value: boolean) => void;
 };
 
-function ClientInfo({ clientId }: dataType) {
+function ClientInfo({ clientId, isClosed }: dataType) {
   const [clientVehicles, setClientVehicles] = useState<ClientInfo[]>([]);
   const clientData = clientVehicles[0];
 
@@ -48,7 +50,7 @@ function ClientInfo({ clientId }: dataType) {
   }, [clientId]);
 
   return (
-    <div className="h-full">
+    <div className="h-full relative">
       <div className="text-2xl border-b-1 border-highlight p-2.5">
         Informacje
       </div>
@@ -117,6 +119,9 @@ function ClientInfo({ clientId }: dataType) {
             </div>
           ))}
         </div>
+      </div>
+      <div className="absolute top-2 right-2" onClick={() => isClosed(false)}>
+        <IoIosCloseCircleOutline className="size-7 hover:text-accent hover:cursor-pointer" />
       </div>
     </div>
   );
