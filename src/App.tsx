@@ -6,6 +6,9 @@ import { useState } from "react";
 import TasksPage from "./pages/TasksPage";
 import AddButton from "./components/AddButton";
 import ClientPage from "./pages/ClientPage";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -20,9 +23,12 @@ function App() {
           <div className="flex flex-col w-full p-2.5 gap-7">
             <Navbar />
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/zlecenia" element={<TasksPage />} />
               <Route path="/klienci" element={<ClientPage />} />
+              <Route path="/rejestracja" element={<Register />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </div>
         </div>
