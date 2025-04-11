@@ -7,8 +7,9 @@ import { LuWarehouse } from "react-icons/lu";
 import { TbPigMoney } from "react-icons/tb";
 import { GoGear } from "react-icons/go";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+import supabase from "../helper/supabaseClient";
 
 const sidebarItems = [
   {
@@ -30,18 +31,6 @@ const sidebarItems = [
     id: "klienci",
   },
   {
-    name: "Magazyn",
-    path: "/magazyn",
-    icon: <LuWarehouse />,
-    id: "magazyn",
-  },
-  {
-    name: "Finanse",
-    path: "/finanse",
-    icon: <TbPigMoney />,
-    id: "finanse",
-  },
-  {
     name: "Ustawienia",
     path: "/ustawienia",
     icon: <GoGear />,
@@ -55,6 +44,14 @@ type SidebarProps = {
 };
 
 function Sidebar({ activePage, setActivePage }: SidebarProps) {
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    navigate("/login");
+  };
+
   return (
     <div className="w-2xs h-dvh flex flex-col p-2.5 gap-2.5 justify-between text-2xl">
       <div className="flex p-2.5 gap-2.5">
@@ -86,7 +83,10 @@ function Sidebar({ activePage, setActivePage }: SidebarProps) {
         </nav>
       </div>
       <div>
-        <button className="sideBar opacity-40 hover:text-accent hover:opacity-90">
+        <button
+          onClick={signOut}
+          className="sideBar opacity-40 hover:text-accent hover:opacity-90"
+        >
           <div className="flex items-center">
             <LuLogOut />
           </div>
