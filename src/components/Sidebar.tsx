@@ -3,8 +3,6 @@ import fixcarLogo from "../assets/FixCar_Logo.svg";
 import { GoHome } from "react-icons/go";
 import { MdOutlineTask } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
-import { LuWarehouse } from "react-icons/lu";
-import { TbPigMoney } from "react-icons/tb";
 import { GoGear } from "react-icons/go";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -41,15 +39,17 @@ const sidebarItems = [
 type SidebarProps = {
   activePage: string;
   setActivePage: React.Dispatch<React.SetStateAction<string>>;
+  authenticated: (vale: boolean) => void;
 };
 
-function Sidebar({ activePage, setActivePage }: SidebarProps) {
+function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
   const navigate = useNavigate();
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     navigate("/login");
+    authenticated(false);
   };
 
   return (
