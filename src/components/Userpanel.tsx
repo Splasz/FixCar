@@ -1,8 +1,27 @@
 import { FaBell } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import userProfile from "../assets/userProfile.png";
+import { useState, useEffect } from "react";
+import supabase from "../helper/supabaseClient";
 
 function Userpanel() {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const getUsername = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (!error && user?.user_metadata.username) {
+        setUserName(user.user_metadata.username);
+      }
+    };
+
+    getUsername();
+  }, []);
+
   return (
     <div className="flex items-center gap-2.5 w-full">
       <div className="pr-5 pl-5">
@@ -20,8 +39,7 @@ function Userpanel() {
             ></img>
           </div>
           <div className=" flex flex-col items-start">
-            <div className="text-2xl font-semibold">Splasz</div>
-            <div className="text-sm opacity-50">Administrator</div>
+            <div className="text-2xl font-semibold">{userName}</div>
           </div>
         </MenuButton>
       </Menu>

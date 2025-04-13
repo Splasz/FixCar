@@ -3,7 +3,7 @@ import ClientInfo from "../features/client/ClientInfo";
 import ClientTable from "../features/client/ClientTable";
 
 function ClientPage() {
-  const [data, setData] = useState(0);
+  const [dataa, setData] = useState(0);
   const [flag, setFlag] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ function ClientPage() {
       </div>
       {flag && (
         <div className="flex flex-col w-1/2 h-fit p-5 bg-white rounded-3xl">
-          <ClientInfo clientId={data} isClosed={setFlag} />
+          <ClientInfo clientId={dataa} isClosed={setFlag} />
         </div>
       )}
     </div>
