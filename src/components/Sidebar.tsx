@@ -7,7 +7,7 @@ import { GoGear } from "react-icons/go";
 
 import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
-import supabase from "../helper/supabaseClient";
+import supabase from "../api/supabaseClient";
 
 const sidebarItems = [
   {

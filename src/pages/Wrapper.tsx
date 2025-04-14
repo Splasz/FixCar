@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import supabase from "../helper/supabaseClient";
+import supabase from "../api/supabaseClient";
 import { Navigate } from "react-router-dom";
 
 type props = {

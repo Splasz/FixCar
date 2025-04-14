@@ -2,13 +2,13 @@ import { FaBell } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import userProfile from "../assets/userProfile.png";
 import { useState, useEffect } from "react";
-import supabase from "../helper/supabaseClient";
+import supabase from "../api/supabaseClient";
 
 function Userpanel() {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    const getUsername = async () => {
+    const fetchUsername = async () => {
       const {
         data: { user },
         error,
@@ -19,7 +19,7 @@ function Userpanel() {
       }
     };
 
-    getUsername();
+    fetchUsername();
   }, []);
 
   return (
