@@ -1,28 +1,43 @@
 import { useEffect, useState } from "react";
+import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
+import supabase from "../../api/supabaseClient";
+import { data } from "react-router-dom";
+import { all } from "axios";
 
 type Tasks = {
   zlecenia_id: number;
-  data_przyjecia: string;
   imie: string;
   nazwisko: string;
   marka: string;
   model: string;
   nr_rejestracyjny: string;
-  usluga: string;
+  nazwa: string;
   notatki: string;
   status: string;
-  data_zakonczenia: string;
-  dni_do_konca: number;
-};
+}[];
 
 function TasksTable() {
-  const [allTasks, setAllTasks] = useState<Tasks[]>([]);
+  const [allTasks, setAllTasks] = useState<Tasks>([]);
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost/react_backend/allTasks.php")
-      .then((response) => response.json())
-      .then((data) => setAllTasks(data))
-      .catch((error) => console.error("Błąd:", error));
+    const fetchAllTask = async () => {
+      const { data, error } = await supabase
+        .from("all_orders_info")
+        .select("*");
+
+      if (error) {
+        throw error;
+      }
+      if (data && data.length > 0) {
+        setAllTasks(data);
+        console.log("Dane: ", allTasks);
+      } else {
+        setErrMsg("Brak Danych");
+      }
+    };
+
+    fetchAllTask();
   }, []);
 
   const getStatusStyle = (status: string) => {
@@ -55,7 +70,6 @@ function TasksTable() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Data Przyjęcia</th>
               <th>Imię</th>
               <th>Nazwisko</th>
               <th>Marka</th>
@@ -67,28 +81,28 @@ function TasksTable() {
             </tr>
           </thead>
           <tbody>
-            {allTasks.map((z) => (
-              <tr key={z.zlecenia_id}>
-                <td>ZL/{z.zlecenia_id}</td>
-                <td>{z.data_przyjecia}</td>
-                <td>{z.imie}</td>
-                <td>{z.nazwisko}</td>
-                <td>{z.marka}</td>
-                <td>{z.model}</td>
-                <td>{z.nr_rejestracyjny}</td>
-                <td>{z.usluga}</td>
-                <td>{z.notatki}</td>
+            {allTasks.map((item, index) => (
+              <tr key={index}>
+                <td>ZL/{item.zlecenia_id}</td>
+                <td>{item.imie}</td>
+                <td>{item.nazwisko}</td>
+                <td>{item.marka}</td>
+                <td>{item.model}</td>
+                <td>{item.nr_rejestracyjny}</td>
+                <td>{item.nazwa}</td>
+                <td>{item.notatki}</td>
                 <td>
                   <div
-                    className="status w-fit p-1 rounded-2xl"
-                    style={getStatusStyle(z.status)}
+                    className="status w-fit p-1.5 rounded-2xl"
+                    style={getStatusStyle(item.status)}
                   >
-                    {z.status}
+                    {item.status}
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
+          {errMsg && <p>{errMsg}</p>}
         </table>
       </div>
     </div>
