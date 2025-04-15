@@ -41,22 +41,7 @@ function DashboardTasks() {
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost/react_backend/tasksNew.php")
-      .then((response) => response.json())
-      .then((data) => setZlecenia_nowe(data))
-      .catch((error) => console.error("Błąd:", error));
-
-    fetch("http://localhost/react_backend/tasksImportant.php")
-      .then((response) => response.json())
-      .then((data) => setZlecenia_pilne(data))
-      .catch((error) => console.error("Błąd:", error));
-
-    fetch("http://localhost/react_backend/tasksOver.php")
-      .then((response) => response.json())
-      .then((data) => setZlecenia_zalegle(data))
-      .catch((error) => console.error("Błąd:", error));
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
