@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import supabase from "../../api/supabaseClient";
 
 type ClientInfo = {
-  imie: string;
-  nazwisko: string;
-  telefon: string;
-  email: string;
-  notatka: string;
+  Klienci: {
+    imie: string;
+    nazwisko: string;
+    telefon: string;
+    email: string;
+    notatka: string;
+  };
   marka: string;
   model: string;
   rocznik: string;
@@ -26,27 +28,22 @@ function ClientInfo({ clientId, isClosed }: dataType) {
 
   useEffect(() => {
     console.log("ID klienta: ", clientId);
-    const fetchData = async () => {
-      if (clientId === 0) {
-        setClientVehicles([]);
-        return;
+
+    const fetchClientsInfo = async () => {
+      const { data, error } = await supabase
+        .from("Pojazdy")
+        .select("*, Klienci(*)")
+        .eq("Klient_id", clientId);
+
+      if (error) {
+        throw error;
       }
-      try {
-        const response = await axios.get(
-          `http://localhost/react_backend/clientInfo.php?query=${clientId}`
-        );
-        if (Array.isArray(response.data)) {
-          setClientVehicles(response.data);
-        } else {
-          setClientVehicles([response.data]);
-        }
-        console.log("API:", clientVehicles);
-      } catch (error) {
-        console.error("Bład poczas pobiernaia danych", error);
+      if (data && data.length > 0) {
+        setClientVehicles(data);
       }
     };
 
-    fetchData();
+    fetchClientsInfo();
   }, [clientId]);
 
   return (
@@ -60,12 +57,14 @@ function ClientInfo({ clientId, isClosed }: dataType) {
             <div className="flex gap-2.5 w-full">
               <div className="bg-[rgba(33,37,41,0.05)] flex flex-col w-full p-2.5 gap-2.5 rounded-2xl">
                 <div>Imię</div>
-                <div className="text-base font-medium">{clientData?.imie}</div>
+                <div className="text-base font-medium">
+                  {clientData?.Klienci?.imie}
+                </div>
               </div>
               <div className="bg-[rgba(33,37,41,0.05)] flex flex-col w-full p-2.5 gap-2.5 rounded-2xl">
                 <div>Nazwisko</div>
                 <div className="text-base font-medium">
-                  {clientData?.nazwisko}
+                  {clientData?.Klienci?.nazwisko}
                 </div>
               </div>
             </div>
@@ -73,26 +72,29 @@ function ClientInfo({ clientId, isClosed }: dataType) {
               <div className="bg-[rgba(33,37,41,0.05)] flex flex-col w-full p-2.5 gap-2.5 rounded-2xl">
                 <div>Telefon</div>
                 <div className="text-base font-medium">
-                  {clientData?.telefon}
+                  {clientData?.Klienci?.telefon}
                 </div>
               </div>
               <div className="bg-[rgba(33,37,41,0.05)] flex flex-col w-full p-2.5 gap-2.5 rounded-2xl">
                 <div>Email</div>
-                <div className="text-base font-medium">{clientData?.email}</div>
+                <div className="text-base font-medium">
+                  {clientData?.Klienci?.email}
+                </div>
               </div>
             </div>
           </div>
           <div className="bg-[rgba(33,37,41,0.05)] flex flex-col overflow-clip w-full p-2.5 gap-2.5 rounded-2xl">
             <div>Notatka</div>
-            <div className="text-base font-normal">{clientData?.notatka}</div>
+            <div className="text-base font-normal">
+              {clientData?.Klienci?.notatka}
+            </div>
           </div>
         </div>
         <div className="space-y-3">
           {clientVehicles.map((vehicle, index) => (
             <div
               key={index}
-              className="bg-[rgba(33,37,41,0.05)] p-3 rounded-2xl"
-            >
+              className="bg-[rgba(33,37,41,0.05)] p-3 rounded-2xl">
               <div className="text-sm mb-2">Samochód {index + 1}</div>
               <div className="grid grid-cols-5 gap-2 text-center">
                 <div>
