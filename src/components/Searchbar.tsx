@@ -1,8 +1,7 @@
 import "./Searchbar.css";
 import { GoSearch } from "react-icons/go";
-import axios from "axios";
-import { useState, useEffect, useCallback } from "react";
-import { debounce } from "@mui/material";
+import { useState, useEffect } from "react";
+import supabase from "../api/supabaseClient";
 
 interface Result {
   pelne_imie: string;
@@ -17,49 +16,35 @@ function Searchbar() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-    setShowResults(false); // Resetujemy pokazywanie wyników przy zmianie zapytania
+    setShowResults(false);
   };
 
-  const fetchData = useCallback(
-    debounce(async (searchQuery: string) => {
-      if (searchQuery.length < 1) {
-        setResults([]);
-        setLoading(false);
-        return;
-      }
-
-      const startTime = Date.now();
-      setLoading(true);
-
-      try {
-        const response = await axios.get(
-          `http://localhost/react_backend/searchbarAPI.php?query=${searchQuery}`
-        );
-        setResults(response.data);
-        setShowResults(true); // Pokazujemy wyniki tylko gdy dane zostały pobrane
-      } catch (error) {
-        console.error("Błąd podczas wyszukiwania:", error);
-        setResults([]);
-      } finally {
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(100 - elapsedTime, 0);
-
-        setTimeout(() => {
-          setLoading(false);
-        }, remainingTime);
-      }
-    }, 100),
-    []
-  );
-
   useEffect(() => {
-    if (query) {
-      fetchData(query);
-    } else {
+    if (query.length < 3) {
       setResults([]);
-      setLoading(false);
+      return;
     }
-  }, [query, fetchData]);
+
+    const fetchQuery = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("searchbar")
+        .select("*")
+        .ilike("pelne_imie", `%${query}%`);
+
+      setLoading(false);
+
+      if (error) {
+        console.error("Błąd zapytania:", error.message);
+      } else {
+        setResults(data);
+        setShowResults(true);
+        console.log(data);
+      }
+    };
+
+    fetchQuery();
+  }, [query]);
 
   return (
     <div className="min-w-4/5 relative">
@@ -74,11 +59,16 @@ function Searchbar() {
         />
       </div>
 
+      {loading && <p className="py-2">Ładowanie...</p>}
+
       {showResults && !loading && results.length > 0 && (
-        <div className="absolute z-10 w-full bg-white shadow-lg rounded mt-1 max-h-60 overflow-auto">
+        <div className="absolute z-10 w-full bg-white shadow-lg rounded mt-1 max-h-60 rounded-2xl overflow-auto">
           <ul>
             {results.map((item, index) => (
-              <li key={index} className="p-2 hover:bg-gray-100 cursor-pointer">
+              <li
+                key={index}
+                className="p-2 hover:bg-gray-100 cursor-pointer border-b-1 border-highlight"
+              >
                 {item.pelne_imie}
                 <span className="pl-2.5"> {item.pojazd}</span>
               </li>
@@ -87,7 +77,7 @@ function Searchbar() {
         </div>
       )}
 
-      {showResults && !loading && results.length === 0 && query.length >= 3 && (
+      {showResults && !loading && results.length === 0 && query.length >= 2 && (
         <p className="py-2">Brak wyników</p>
       )}
     </div>
