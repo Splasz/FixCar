@@ -1,5 +1,5 @@
 import { FaBell } from "react-icons/fa";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { Menu, MenuButton } from "@headlessui/react";
 import userProfile from "../assets/userProfile.png";
 import { useState, useEffect } from "react";
 import supabase from "../api/supabaseClient";

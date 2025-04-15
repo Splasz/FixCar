@@ -10,12 +10,7 @@ const colors = ["#E53E3E", "#F6AD55", "#61A766", "#3D7DCA", "#813DCA"];
 function DashboardChart() {
   const [repairStats, setRepairStats] = useState<RepairStats[]>([]);
 
-  useEffect(() => {
-    fetch("http://localhost/react_backend/repairStats.php")
-      .then((response) => response.json())
-      .then((data) => setRepairStats(data))
-      .catch((error) => console.error("Błąd:", error));
-  }, []);
+  useEffect(() => {}, []);
 
   const chartItems = repairStats.map((item, index) => ({
     id: index,
