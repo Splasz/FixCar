@@ -28,7 +28,6 @@ function TasksTable() {
       }
       if (data && data.length > 0) {
         setAllTasks(data);
-        console.log("Dane: ", allTasks);
       } else {
         setErrMsg("Brak Danych");
       }
@@ -91,7 +90,8 @@ function TasksTable() {
                 <td>
                   <div
                     className="status w-fit p-1.5 rounded-2xl"
-                    style={getStatusStyle(item.status)}>
+                    style={getStatusStyle(item.status)}
+                  >
                     {item.status}
                   </div>
                 </td>

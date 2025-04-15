@@ -3,12 +3,12 @@ import { BsThreeDots } from "react-icons/bs";
 import supabase from "../../api/supabaseClient";
 
 type Info = {
-  klient_id: number;
+  Klient_id: number;
   imie: string;
   nazwisko: string;
   telefon: string;
   email: string;
-  data: string;
+  data_rejestracji: string;
   notatki: string;
   przycisk: string;
 };
@@ -32,8 +32,8 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
     fetchClients();
   }, []);
 
-  const handleClick = (klient_id: number) => {
-    onClientSelect(klient_id);
+  const handleClick = (Klient_id: number) => {
+    onClientSelect(Klient_id);
     isOpen(true);
   };
 
@@ -56,14 +56,15 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
           <tbody>
             {clients.map((z) => (
               <tr
-                onClick={() => handleClick(z.klient_id)}
+                onClick={() => handleClick(z.Klient_id)}
                 className="rounded-2xl border-b-1 border-highlight hover:bg-highlight hover:cursor-pointer"
-                key={z.klient_id}>
+                key={z.Klient_id}
+              >
                 <td className="rounded-s-2xl">{z.imie}</td>
                 <td>{z.nazwisko}</td>
                 <td>{z.telefon}</td>
                 <td>{z.email}</td>
-                <td>{z.data}</td>
+                <td>{z.data_rejestracji}</td>
                 <td>{z.notatki}</td>
                 <td className="rounded-e-2xl">
                   <button className="bg-highlight text-gray-500 p-1 rounded-2xl cursor-pointer hover:opacity-70 hover:text-gray-400">
