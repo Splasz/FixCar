@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
 import supabase from "../../api/supabaseClient";
-import { data } from "react-router-dom";
-import { all } from "axios";
 
 type Tasks = {
   zlecenia_id: number;
@@ -94,8 +91,7 @@ function TasksTable() {
                 <td>
                   <div
                     className="status w-fit p-1.5 rounded-2xl"
-                    style={getStatusStyle(item.status)}
-                  >
+                    style={getStatusStyle(item.status)}>
                     {item.status}
                   </div>
                 </td>
