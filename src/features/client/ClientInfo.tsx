@@ -125,6 +125,7 @@ function ClientInfo({ clientId, isClosed }: dataType) {
       <div className="absolute top-2 right-2" onClick={() => isClosed(false)}>
         <IoIosCloseCircleOutline className="size-7 hover:text-accent hover:cursor-pointer" />
       </div>
+      <div></div>
     </div>
   );
 }
