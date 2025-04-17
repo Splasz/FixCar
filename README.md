@@ -9,6 +9,26 @@ FixCar is a web application designed for car service management. It allows users
 - Task management (view, assign, and update task status)
 - Integrates with Supabase as the backend to store data
 
+## ✅ TODO
+
+### 🔨 In Progress / To Do
+
+
+#### 🔸 High Priority
+- [ ] Full integration of the application with the database
+
+#### 🔸 Medium Priority
+- [ ] Create subpages for `home` / `login` / `register` based on the design
+- [ ] Add functionality to create new tasks/orders
+
+#### 🔸 Low Priority
+- [ ] Edit/Delete cars
+- [ ] Edit/Delete clients
+- [ ] Edit/Delete orders
+- [ ] Make the site responsive
+- [ ] Add avatar change functionality
+- [ ] Add settings options
+
 ## ⚙️ Technology Stack
 
 - **Frontend**: ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
