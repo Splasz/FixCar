@@ -12,8 +12,8 @@ type ClientInfo = {
   };
   marka: string;
   model: string;
-  rocznik: string;
-  rejestracja: string;
+  rok_produkcji: string;
+  nr_rejestracyjny: string;
   przebieg: string;
 };
 
@@ -94,7 +94,8 @@ function ClientInfo({ clientId, isClosed }: dataType) {
           {clientVehicles.map((vehicle, index) => (
             <div
               key={index}
-              className="bg-[rgba(33,37,41,0.05)] p-3 rounded-2xl">
+              className="bg-[rgba(33,37,41,0.05)] p-3 rounded-2xl"
+            >
               <div className="text-sm mb-2">Samochód {index + 1}</div>
               <div className="grid grid-cols-5 gap-2 text-center">
                 <div>
@@ -107,11 +108,11 @@ function ClientInfo({ clientId, isClosed }: dataType) {
                 </div>
                 <div>
                   <div className="text-xs">Rocznik</div>
-                  <div className="font-medium">{vehicle.rocznik}</div>
+                  <div className="font-medium">{vehicle.rok_produkcji}</div>
                 </div>
                 <div>
                   <div className="text-xs">Rejestracja</div>
-                  <div className="font-medium">{vehicle.rejestracja}</div>
+                  <div className="font-medium">{vehicle.nr_rejestracyjny}</div>
                 </div>
                 <div>
                   <div className="text-xs">Przebieg</div>
