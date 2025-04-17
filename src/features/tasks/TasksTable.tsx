@@ -50,9 +50,7 @@ function TasksTable() {
       case "gotowe do odbioru":
         return { color: "#61A766", backgroundColor: "rgba(97, 167, 102, 0.2)" };
       case "zakończone":
-        return { color: "#fff", backgroundColor: "rgba(229, 62, 62, 0.2)" };
-      case "anulowane":
-        return { color: "#E53E3E", backgroundColor: "rgba(229, 62, 62, 0.2)" };
+        return { color: "#e53e3e", backgroundColor: "rgba(229, 62, 62, 0.2)" };
       default:
         return { color: "#000000", backgroundColor: "#e0e0e0" };
     }
