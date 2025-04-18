@@ -39,7 +39,8 @@ function Userpanel() {
             ></img>
           </div>
           <div className=" flex flex-col items-start">
-            <div className="text-2xl font-semibold">{userName}</div>
+            <div className="text-2xl font-semibold">Splasz</div>
+            <div className="text-sm opacity-50">Administrator</div>
           </div>
         </MenuButton>
       </Menu>
