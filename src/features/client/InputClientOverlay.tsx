@@ -2,7 +2,7 @@ import Overlay from "../../components/Overlay";
 import React, { useState } from "react";
 import { Textarea } from "@headlessui/react";
 import { FaCheck } from "react-icons/fa6";
-import supabase from "../../api/supabaseClient";
+import supabase from "../../api/supabase";
 
 type InputClientOverlay = {
   isOpen: boolean;

@@ -3,7 +3,7 @@ import { MdOutlineTaskAlt } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { FaCarAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import supabase from "../../api/supabaseClient";
+import supabase from "../../api/supabase";
 
 type StatsType = {
   income: string;

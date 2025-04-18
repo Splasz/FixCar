@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import supabase from "../../api/supabaseClient";
+import supabase from "../../api/supabase";
 
 type Tasks = {
   zlecenia_id: number;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import supabase from "../../api/supabaseClient";
+import supabase from "../../api/supabase";
 
 type ClientInfo = {
   Klienci: {

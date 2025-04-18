@@ -2,7 +2,7 @@ import { FaBell } from "react-icons/fa";
 import { Menu, MenuButton } from "@headlessui/react";
 import userProfile from "../assets/userProfile.png";
 import { useState, useEffect } from "react";
-import supabase from "../api/supabaseClient";
+import supabase from "../api/supabase";
 
 function Userpanel() {
   const [userName, setUserName] = useState("");

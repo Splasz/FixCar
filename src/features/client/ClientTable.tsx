@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import supabase from "../../api/supabaseClient";
+import supabase from "../../api/supabase";
 
 type Info = {
   Klient_id: number;
