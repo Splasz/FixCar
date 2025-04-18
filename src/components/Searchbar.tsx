@@ -62,7 +62,7 @@ function Searchbar() {
       {loading && <p className="py-2">Ładowanie...</p>}
 
       {showResults && !loading && results.length > 0 && (
-        <div className="absolute z-10 w-full bg-white shadow-lg rounded mt-1 max-h-60 rounded-2xl overflow-auto">
+        <div className="absolute z-10 w-full bg-white shadow-lg mt-1 max-h-60 rounded-2xl overflow-auto">
           <ul>
             {results.map((item, index) => (
               <li
