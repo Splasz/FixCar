@@ -32,7 +32,7 @@ function Wrapper({ children, setAuthenticatedState }: props) {
       return <>{children}</>;
     }
 
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 }
 

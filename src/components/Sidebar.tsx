@@ -48,7 +48,7 @@ function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
-    navigate("/login");
+    navigate("/");
     authenticated(false);
   };
 
