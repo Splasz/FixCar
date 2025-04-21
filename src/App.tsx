@@ -12,9 +12,11 @@ import TasksPage from "./pages/TasksPage";
 import AddButton from "./components/AddButton";
 import ClientPage from "./pages/ClientPage";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Register from "./pages/RegisterPage";
+import Login from "./pages/LoginPage";
 import Wrapper from "./pages/Wrapper";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 
 function AppWrapper({
   activePage,
@@ -23,7 +25,10 @@ function AppWrapper({
   setAuthenticated,
 }: any) {
   const location = useLocation();
-  const isHome = location.pathname === "/" || "/login";
+  const isHome =
+    location.pathname === "/" ||
+    location.pathname === "/login" ||
+    location.pathname === "/rejestracja";
 
   return (
     <div
@@ -64,8 +69,8 @@ function AppWrapper({
               </Wrapper>
             }
           />
-          <Route path="/rejestracja" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/rejestracja" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </div>

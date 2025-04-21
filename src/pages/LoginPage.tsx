@@ -1,7 +1,7 @@
 import HomeNavbar from "../components/HomeNavbar";
 import LoginForm from "../features/login_register/LoginForm";
 
-function Login() {
+function LoginPage() {
   return (
     <>
       <HomeNavbar />
@@ -10,4 +10,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;
