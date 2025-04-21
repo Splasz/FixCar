@@ -7,10 +7,16 @@ import supabase from "../../api/supabase";
 
 type StatsType = {
   income: string;
+  tasks: string;
+  new_clients: string;
+  repairs: string;
 };
 
 function DashboardStats() {
-  const [statistics, setStatistics] = useState<StatsType | null>(null);
+  const [incomeStats, setIncomeStats] = useState<StatsType | null>(null);
+  const [tasksStats, setTasksStats] = useState<StatsType | null>(null);
+  const [clientStats, setClientStats] = useState<StatsType | null>(null);
+  const [repairStats, setRepairStats] = useState<StatsType | null>(null);
 
   useEffect(() => {
     const fetchIncome = async () => {
@@ -20,7 +26,49 @@ function DashboardStats() {
         .single();
 
       if (data) {
-        setStatistics(data);
+        setIncomeStats(data);
+      }
+      if (error) {
+        console.error(`Błąd połączenia z bazą: ${error.message}`);
+      }
+    };
+
+    const fetchTasks = async () => {
+      const { data, error } = await supabase
+        .from("tasksdata")
+        .select("*")
+        .single();
+
+      if (data) {
+        setTasksStats(data);
+      }
+      if (error) {
+        console.error(`Błąd połączenia z bazą: ${error.message}`);
+      }
+    };
+
+    const fetchClients = async () => {
+      const { data, error } = await supabase
+        .from("new_clients")
+        .select("*")
+        .single();
+
+      if (data) {
+        setClientStats(data);
+      }
+      if (error) {
+        console.error(`Błąd połączenia z bazą: ${error.message}`);
+      }
+    };
+
+    const fetchRepairs = async () => {
+      const { data, error } = await supabase
+        .from("repaired_cars")
+        .select("*")
+        .single();
+
+      if (data) {
+        setRepairStats(data);
       }
       if (error) {
         console.error(`Błąd połączenia z bazą: ${error.message}`);
@@ -28,6 +76,9 @@ function DashboardStats() {
     };
 
     fetchIncome();
+    fetchClients();
+    fetchTasks();
+    fetchRepairs();
   }, []);
 
   return (
@@ -41,7 +92,7 @@ function DashboardStats() {
         </div>
         <div className="flex items-center justify-center text-5xl p-2.5 gap-2.5">
           <div className="opacity-50">zł</div>
-          <div>{statistics?.income}</div>
+          <div>{incomeStats?.income}</div>
         </div>
       </div>
 
@@ -53,7 +104,7 @@ function DashboardStats() {
           <div className="opacity-50">Zlecenia</div>
         </div>
         <div className="flex items-center justify-center text-5xl p-2.5 gap-2.5">
-          <div>{}</div>
+          <div>{tasksStats?.tasks}</div>
         </div>
       </div>
 
@@ -66,7 +117,7 @@ function DashboardStats() {
         </div>
         <div className="flex items-center justify-center text-5xl p-2.5 gap-2.5">
           <div className="opacity-50">+</div>
-          <div>{}</div>
+          <div>{clientStats?.new_clients}</div>
         </div>
       </div>
 
@@ -78,7 +129,7 @@ function DashboardStats() {
           <div className="opacity-50">Naprawione Auta</div>
         </div>
         <div className="flex items-center justify-center text-5xl p-2.5 gap-2.5">
-          <div>{}</div>
+          <div>{repairStats?.repairs}</div>
         </div>
       </div>
     </div>
