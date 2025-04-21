@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 
 function HomeNavbar() {
   return (
-    <div className="flex justify-between items-center border-b-1 bg-background p-2 pl-5 pr-5">
-      <div className="flex gap-4.5 items-center text-5xl font-medium">
-        <div>
-          <img className="w-16" src={fixcarLogo} alt="fixcar logo" />
+    <div className="fixed w-full flex justify-between items-center border-b-1 bg-background p-2 pl-5 pr-5">
+      <Link to={"/"}>
+        <div className="flex gap-4.5 items-center text-5xl font-medium">
+          <div>
+            <img className="w-16" src={fixcarLogo} alt="fixcar logo" />
+          </div>
+          <div>FixCar</div>
         </div>
-        <div>FixCar</div>
-      </div>
+      </Link>
       <div className="flex gap-5">
         <Link to="/login">
           <div className="p-2.5 text-text font-medium rounded-xl bg-white border-1 border-gray-200 shadow-[0_4px_4px_rgba(0,0,0,0.25)]">

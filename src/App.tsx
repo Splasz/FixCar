@@ -23,7 +23,7 @@ function AppWrapper({
   setAuthenticated,
 }: any) {
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/" || "/login";
 
   return (
     <div
