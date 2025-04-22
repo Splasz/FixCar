@@ -18,7 +18,7 @@ FixCar is a web application designed for car service management. It allows users
 - [ ] Full integration of the application with the database
 
 #### 🔸 Medium Priority
-- [ ] Create subpages for `home` / `login` / `register` based on the design
+- [ ] <s> Create subpages for `home` / `login` / `register` based on the design</s>
 - [ ] Add functionality to create new tasks/orders
 
 #### 🔸 Low Priority
