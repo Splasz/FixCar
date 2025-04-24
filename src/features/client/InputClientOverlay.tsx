@@ -22,11 +22,12 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
     registrationNumber: "",
     vin: "",
     mileage: "",
-    engineType: "",
+    engineType: "Benzyna",
     engineCapacity: "",
   });
 
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const resetForm = () => {
     setFormData({
@@ -41,7 +42,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
       registrationNumber: "",
       vin: "",
       mileage: "",
-      engineType: "",
+      engineType: "Benzyna",
       engineCapacity: "",
     });
   };
@@ -53,6 +54,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setSuccessMessage("");
+    setErrorMessage("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -116,7 +118,8 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
         .select();
 
       if (error) {
-        console.error("Bład przy wysylaniu(car):", error);
+        console.error("Bład przy wysylaniu(car):");
+        throw error;
       } else {
         console.log(data);
       }
@@ -131,11 +134,12 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
       }
     } catch (err) {
       console.error("Wystąpił nieoczekiwany błąd:", err);
+      setErrorMessage("Dodawanie nie powiodło się");
     }
   };
 
   return (
-    <Overlay isOpen={isOpen} onClose={onClose}>
+    <Overlay isOpen={isOpen} onClose={onClose} closeButton={true}>
       <div className="flex gap-5.5">
         <div className="flex flex-col gap-2.5">
           <div className="border-highlight border-b-1 text-2xl">
@@ -235,6 +239,11 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
             {successMessage && (
               <div>
                 <p className="text-accent2">{successMessage}</p>
+              </div>
+            )}
+            {errorMessage && (
+              <div>
+                <p className="text-accent">{errorMessage}</p>
               </div>
             )}
           </form>

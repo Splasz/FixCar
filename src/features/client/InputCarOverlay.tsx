@@ -91,7 +91,7 @@ function InputCarOverlay({ isOpen, onClose, clientId }: InputCarOverlay) {
   };
 
   return (
-    <Overlay isOpen={isOpen} onClose={onClose}>
+    <Overlay isOpen={isOpen} onClose={onClose} closeButton={true}>
       <div className="flex gap-5.5">
         <div className="flex flex-col gap-2.5">
           <div className="border-highlight border-b-1 text-2xl">

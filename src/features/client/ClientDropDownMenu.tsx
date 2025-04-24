@@ -8,6 +8,8 @@ import {
 import { useState } from "react";
 import { BsThreeDots, BsPencil, BsCarFrontFill, BsTrash } from "react-icons/bs";
 import InputCarOverlay from "./InputCarOverlay";
+import supabase from "../../api/supabase";
+import WarningAlert from "../../components/WarningAlert";
 
 type Props = {
   clientId: number;
@@ -15,6 +17,7 @@ type Props = {
 
 export default function ClientDropdownMenu({ clientId }: Props) {
   const [isCarOverlayOpen, setIsCarOverlayopen] = useState(false);
+  const [warningAlert, setWarningAlert] = useState(false);
 
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -22,6 +25,38 @@ export default function ClientDropdownMenu({ clientId }: Props) {
   ) => {
     e.stopPropagation();
     console.log(`${action} klienta ${clientId}`);
+  };
+
+  const deleteHandle = async (clientId: number) => {
+    try {
+      const { error: vehicleDeleteError } = await supabase
+        .from("Pojazdy")
+        .delete()
+        .eq("Klient_id", clientId);
+
+      if (vehicleDeleteError) {
+        throw new Error(
+          `Błąd podczas usuwania pojazdów: ${vehicleDeleteError.message}`,
+        );
+      }
+
+      const { error: clientDeleteError } = await supabase
+        .from("Klienci")
+        .delete()
+        .eq("Klient_id", clientId);
+
+      if (clientDeleteError) {
+        throw new Error(
+          `Błąd podczas usuwania klienta: ${clientDeleteError.message}`,
+        );
+      }
+      console.log(
+        `Klient o ID ${clientId} oraz jego pojazdy zostali pomyślnie usunięci.`,
+      );
+    } catch (err: any) {
+      console.error("Wystąpił błąd:", err.message);
+    }
+    setWarningAlert(false);
   };
 
   return (
@@ -57,7 +92,7 @@ export default function ClientDropdownMenu({ clientId }: Props) {
 
           <MenuItem>
             <button
-              onClick={(e) => handleClick(e, "Usun")}
+              onClick={() => setWarningAlert(true)}
               className="hover:bg-text/5 flex w-full items-center gap-2 rounded-lg px-3 py-1.5"
             >
               <BsTrash className="text-text/80 size-4" />
@@ -70,6 +105,11 @@ export default function ClientDropdownMenu({ clientId }: Props) {
         isOpen={isCarOverlayOpen}
         onClose={() => setIsCarOverlayopen(false)}
         clientId={clientId}
+      />
+      <WarningAlert
+        isOpen={warningAlert}
+        onClose={() => setWarningAlert(false)}
+        acceptRisk={() => deleteHandle(clientId)}
       />
     </div>
   );
