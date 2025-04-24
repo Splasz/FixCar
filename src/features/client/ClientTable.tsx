@@ -38,19 +38,19 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
   };
 
   return (
-    <div>
+    <div className="flex h-full max-h-[90vh] flex-col overflow-auto">
       <div className="p-2.5 text-2xl">Wszyscy Klienci</div>
-      <div>
-        <table>
+      <div className="overflow-auto">
+        <table className="min-w-full">
           <thead>
             <tr>
-              <th>Imię</th>
-              <th>Nazwisko</th>
-              <th>Telefon</th>
-              <th>Email</th>
-              <th>Data Rejestracji</th>
-              <th>Notatki</th>
-              <th>...</th>
+              <th className="p-2 text-left">Imię</th>
+              <th className="p-2 text-left">Nazwisko</th>
+              <th className="p-2 text-left">Telefon</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Data Rejestracji</th>
+              <th className="p-2 text-left">Notatki</th>
+              <th className="p-2 text-left">...</th>
             </tr>
           </thead>
           <tbody>
@@ -60,13 +60,13 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
                 className="border-highlight hover:bg-highlight rounded-2xl border-b-1 hover:cursor-pointer"
                 key={z.Klient_id}
               >
-                <td className="rounded-s-2xl">{z.imie}</td>
-                <td>{z.nazwisko}</td>
-                <td>{z.telefon}</td>
-                <td>{z.email}</td>
-                <td>{z.data_rejestracji}</td>
-                <td>{z.notatki}</td>
-                <td className="rounded-e-2xl">
+                <td className="p-2">{z.imie}</td>
+                <td className="p-2">{z.nazwisko}</td>
+                <td className="p-2">{z.telefon}</td>
+                <td className="p-2">{z.email}</td>
+                <td className="p-2">{z.data_rejestracji}</td>
+                <td className="p-2">{z.notatki}</td>
+                <td className="p-2">
                   <ClientDropdownMenu clientId={z.Klient_id} />
                 </td>
               </tr>
