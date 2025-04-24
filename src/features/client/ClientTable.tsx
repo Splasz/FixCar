@@ -39,7 +39,7 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
 
   return (
     <div>
-      <div className="text-2xl p-2.5 ">Wszyscy Klienci</div>
+      <div className="p-2.5 text-2xl">Wszyscy Klienci</div>
       <div>
         <table>
           <thead>
@@ -57,7 +57,7 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
             {clients.map((z) => (
               <tr
                 onClick={() => handleClick(z.Klient_id)}
-                className="rounded-2xl border-b-1 border-highlight hover:bg-highlight hover:cursor-pointer"
+                className="border-highlight hover:bg-highlight rounded-2xl border-b-1 hover:cursor-pointer"
                 key={z.Klient_id}
               >
                 <td className="rounded-s-2xl">{z.imie}</td>
@@ -67,7 +67,7 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
                 <td>{z.data_rejestracji}</td>
                 <td>{z.notatki}</td>
                 <td className="rounded-e-2xl">
-                  <button className="bg-highlight text-gray-500 p-1 rounded-2xl cursor-pointer hover:opacity-70 hover:text-gray-400">
+                  <button className="bg-highlight cursor-pointer rounded-2xl p-1 text-gray-500 hover:text-gray-400 hover:opacity-70">
                     <BsThreeDots />
                   </button>
                 </td>

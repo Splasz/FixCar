@@ -49,7 +49,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setSuccessMessage("");
@@ -68,6 +68,8 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
     }
 
     const insertClient = async (): Promise<string | null> => {
+      const user = supabase.auth.getUser();
+
       const { data, error } = await supabase
         .from("Klienci")
         .insert([
@@ -77,6 +79,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
             telefon: formData.phone,
             email: formData.email,
             notatki: formData.text,
+            user_id: (await user).data.user?.id,
           },
         ])
         .select("Klient_id");
@@ -99,7 +102,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
         .from("Pojazdy")
         .insert([
           {
-            Klient_id: klientId,
+            Klient_id: Number(klientId),
             marka: formData.carBrand,
             model: formData.carModel,
             rok_produkcji: formData.productionYear,
@@ -119,19 +122,23 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
       }
     };
 
-    const newClientId = await insertClient();
-    if (newClientId) {
-      await insertCar(newClientId);
+    try {
+      const newClientId = await insertClient();
+      if (newClientId) {
+        await insertCar(newClientId);
+        setSuccessMessage("Pomyślnie dodano nowego klienta i samochód!");
+        resetForm();
+      }
+    } catch (err) {
+      console.error("Wystąpił nieoczekiwany błąd:", err);
     }
-    setSuccessMessage("Pomyślnie dodano nowego klienta i samochód!");
-    resetForm();
   };
 
   return (
     <Overlay isOpen={isOpen} onClose={onClose}>
       <div className="flex gap-5.5">
         <div className="flex flex-col gap-2.5">
-          <div className="border-b-1 border-highlight text-2xl">
+          <div className="border-highlight border-b-1 text-2xl">
             Dodaj Nowego Klienta
           </div>
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
@@ -149,7 +156,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
                   value={formData.name}
                   onChange={handleChange}
                 />
-                <p className="mt-1 hidden text-xs text-accent peer-invalid:block">
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
                   Imię jest wymagane
                 </p>
               </label>
@@ -167,7 +174,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
                   value={formData.lastname}
                   onChange={handleChange}
                 />
-                <p className="mt-1 hidden text-xs text-accent peer-invalid:block">
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
                   Nazwisko jest wymagane
                 </p>
               </label>
@@ -218,7 +225,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
             <div>
               <button
                 type="submit"
-                className="flex items-center gap-2.5 text-xl p-2 rounded-2xl text-background bg-primary w-1/3 cursor-pointer"
+                className="text-background bg-primary flex w-1/3 cursor-pointer items-center gap-2.5 rounded-2xl p-2 text-xl"
               >
                 <FaCheck />
                 Dodaj
@@ -234,7 +241,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
         </div>
 
         <div className="flex flex-col gap-2.5">
-          <div className="border-b-1 border-highlight text-2xl">
+          <div className="border-highlight border-b-1 text-2xl">
             Dodaj Samochód
           </div>
 
@@ -253,7 +260,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
                   value={formData.carBrand}
                   onChange={handleChange}
                 />
-                <p className="mt-1 hidden text-xs text-accent peer-invalid:block">
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
                   Marka jest wymagana
                 </p>
               </label>
@@ -271,7 +278,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
                   value={formData.carModel}
                   onChange={handleChange}
                 />
-                <p className="mt-1 hidden text-xs text-accent peer-invalid:block">
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
                   Model jest wymagany
                 </p>
               </label>
@@ -331,7 +338,7 @@ function InputClientOverlay({ isOpen, onClose }: InputClientOverlay) {
             </div>
 
             <div className="flex gap-3.5">
-              <label className="flex flex-col w-full">
+              <label className="flex w-full flex-col">
                 Typ silnika
                 <select
                   name="engineType"

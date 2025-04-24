@@ -58,7 +58,7 @@ function TasksTable() {
 
   return (
     <div>
-      <div className="text-2xl p-2.5 ">Wszystkie Zlecenia</div>
+      <div className="p-2.5 text-2xl">Wszystkie Zlecenia</div>
       <div>
         <table>
           <thead>
@@ -87,7 +87,7 @@ function TasksTable() {
                 <td>{item.notatki}</td>
                 <td>
                   <div
-                    className="status w-fit p-1.5 rounded-2xl"
+                    className="status w-fit rounded-2xl p-1.5"
                     style={getStatusStyle(item.status)}
                   >
                     {item.status}
@@ -96,8 +96,8 @@ function TasksTable() {
               </tr>
             ))}
           </tbody>
-          {errMsg && <p>{errMsg}</p>}
         </table>
+        {errMsg && <span>{errMsg}</span>}
       </div>
     </div>
   );

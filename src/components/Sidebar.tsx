@@ -4,8 +4,7 @@ import { GoHome } from "react-icons/go";
 import { MdOutlineTask } from "react-icons/md";
 import { BsPerson } from "react-icons/bs";
 import { GoGear } from "react-icons/go";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import supabase from "../api/supabase";
 
@@ -37,12 +36,11 @@ const sidebarItems = [
 ];
 
 type SidebarProps = {
-  activePage: string;
-  setActivePage: React.Dispatch<React.SetStateAction<string>>;
   authenticated: (vale: boolean) => void;
 };
 
-function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
+function Sidebar({ authenticated }: SidebarProps) {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const signOut = async () => {
@@ -53,12 +51,12 @@ function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
   };
 
   return (
-    <div className="w-2xs h-dvh flex flex-col p-2.5 gap-2.5 justify-between text-2xl">
-      <div className="flex p-2.5 gap-2.5">
+    <div className="flex h-dvh w-2xs flex-col justify-between gap-2.5 p-2.5 text-2xl">
+      <div className="flex gap-2.5 p-2.5">
         <div className="flex items-center">
           <img className="w-16" src={fixcarLogo} alt="fixcar logo" />
         </div>
-        <div className="text-3xl flex items-center font-medium">FixCar</div>
+        <div className="flex items-center text-3xl font-medium">FixCar</div>
       </div>
       <div className="h-full p-5 pt-10">
         <nav>
@@ -67,9 +65,8 @@ function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
               <li key={item.id}>
                 <Link
                   to={item.path}
-                  onClick={() => setActivePage(item.id)}
                   className={`sideBar ${
-                    activePage === item.id
+                    location.pathname === item.path
                       ? "active bg-primary text-background"
                       : ""
                   }`}
@@ -85,7 +82,7 @@ function Sidebar({ activePage, setActivePage, authenticated }: SidebarProps) {
       <div>
         <button
           onClick={signOut}
-          className="sideBar opacity-40 hover:text-accent hover:opacity-90"
+          className="sideBar hover:text-accent opacity-40 hover:opacity-90"
         >
           <div className="flex items-center">
             <LuLogOut />

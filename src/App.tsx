@@ -34,14 +34,8 @@ function AppWrapper({
     <div
       className={`flex ${isHome ? "bg-text" : "bg-background"} min-h-screen`}
     >
-      {authenticated && (
-        <Sidebar
-          activePage={activePage}
-          setActivePage={setActivePage}
-          authenticated={setAuthenticated}
-        />
-      )}
-      <div className={`flex flex-col w-full gap-7 ${isHome ? " " : "p-2.5"}`}>
+      {authenticated && <Sidebar authenticated={setAuthenticated} />}
+      <div className={`flex w-full flex-col gap-7 ${isHome ? " " : "p-2.5"}`}>
         {authenticated && <Navbar />}
         <Routes>
           <Route path="/" element={<Home />} />
