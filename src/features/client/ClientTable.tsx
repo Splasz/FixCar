@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
 import supabase from "../../api/supabase";
+import ClientDropdownMenu from "./ClientDropDownMenu";
 
 type Info = {
   Klient_id: number;
@@ -67,9 +67,7 @@ function ClientTable({ onClientSelect, isOpen }: dataTypeProps) {
                 <td>{z.data_rejestracji}</td>
                 <td>{z.notatki}</td>
                 <td className="rounded-e-2xl">
-                  <button className="bg-highlight cursor-pointer rounded-2xl p-1 text-gray-500 hover:text-gray-400 hover:opacity-70">
-                    <BsThreeDots />
-                  </button>
+                  <ClientDropdownMenu clientId={z.Klient_id} />
                 </td>
               </tr>
             ))}

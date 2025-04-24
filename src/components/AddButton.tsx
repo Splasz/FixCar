@@ -19,19 +19,18 @@ function AddButton() {
     <>
       <Menu>
         <MenuButton
-          // onClick={() => setRotated(!rotated)}
-          className={`right-5 bottom-5 absolute w-fit bg-primary text-background p-2.5 rounded-full text-4xl pr-5 pl-5 hover:opacity-90 hover:cursor-pointer`}
+          className={`bg-primary text-background absolute right-5 bottom-5 w-fit rounded-full p-2.5 pr-5 pl-5 text-4xl hover:cursor-pointer hover:opacity-90`}
         >
           +
         </MenuButton>
         <MenuItems
-          className="[--anchor-gap:8px] flex flex-col items-start bg-primary p-2.5 w-64  text-background rounded-3xl origin-top transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="bg-primary text-background flex w-64 origin-top flex-col items-start rounded-3xl p-2.5 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0"
           transition
           anchor="top end"
         >
           <MenuItem>
             <Button
-              className="flex items-center p-3 w-full data-[focus]:bg-highlight rounded-2xl"
+              className="data-[focus]:bg-highlight flex w-full items-center rounded-2xl p-3"
               onClick={() => setIsClientOverlayOpen(!isClientOverlayOpen)}
             >
               <div className="pr-2.5">
@@ -42,7 +41,7 @@ function AddButton() {
           </MenuItem>
           <MenuItem>
             <Button
-              className="flex items-center p-3 w-full data-[focus]:bg-highlight rounded-2xl"
+              className="data-[focus]:bg-highlight flex w-full items-center rounded-2xl p-3"
               onClick={() => setIsTasksOverlayOpen(!isTasksOverlayOpen)}
             >
               <div className="pr-2.5">

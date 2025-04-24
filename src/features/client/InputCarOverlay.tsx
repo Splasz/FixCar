@@ -1,0 +1,253 @@
+import Overlay from "../../components/Overlay";
+import React, { useState } from "react";
+import supabase from "../../api/supabase";
+import { FaCheck } from "react-icons/fa";
+
+type InputCarOverlay = {
+  isOpen: boolean;
+  onClose: () => void;
+  clientId: number;
+};
+
+function InputCarOverlay({ isOpen, onClose, clientId }: InputCarOverlay) {
+  const [formData, setFormData] = useState({
+    carBrand: "",
+    carModel: "",
+    productionYear: "",
+    registrationNumber: "",
+    vin: "",
+    mileage: "",
+    engineType: "Benzyna",
+    engineCapacity: "",
+  });
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const resetForm = () => {
+    setFormData({
+      carBrand: "",
+      carModel: "",
+      productionYear: "",
+      registrationNumber: "",
+      vin: "",
+      mileage: "",
+      engineType: "Benzyna",
+      engineCapacity: "",
+    });
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setSuccessMessage("");
+    setErrorMessage("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.carBrand.trim() || !formData.carModel.trim()) {
+      return;
+    }
+
+    const insertCar = async (klientId: number) => {
+      const { data, error } = await supabase
+        .from("Pojazdy")
+        .insert([
+          {
+            Klient_id: klientId,
+            marka: formData.carBrand,
+            model: formData.carModel,
+            rok_produkcji: formData.productionYear,
+            nr_rejestracyjny: formData.registrationNumber,
+            vin: formData.vin,
+            przebieg: formData.mileage,
+            rodzaj_silnika: formData.engineType,
+            pojemnosc_silnika: formData.engineCapacity,
+          },
+        ])
+        .select();
+
+      if (error) {
+        console.error("Bład przy wysylaniu(car):", error);
+        throw error;
+      } else {
+        console.log(data);
+      }
+    };
+
+    try {
+      await insertCar(clientId);
+      setSuccessMessage("Pomyślnie dodano samochód!");
+      resetForm();
+    } catch (err) {
+      console.error("Wystąpił nieoczekiwany błąd:", err);
+      setErrorMessage("Wystąpił błąd przy dodawaniu");
+    }
+  };
+
+  return (
+    <Overlay isOpen={isOpen} onClose={onClose}>
+      <div className="flex gap-5.5">
+        <div className="flex flex-col gap-2.5">
+          <div className="border-highlight border-b-1 text-2xl">
+            Dodaj Samochód
+          </div>
+          <form className="flex flex-col gap-5">
+            <div className="flex gap-3.5">
+              <label className="flex flex-col">
+                <span className="after:ml-0.5 after:text-red-500 after:content-['*']">
+                  Marka
+                </span>
+                <input
+                  placeholder="Toyota"
+                  name="carBrand"
+                  type="text"
+                  className="client peer"
+                  required
+                  value={formData.carBrand}
+                  onChange={handleChange}
+                />
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
+                  Marka jest wymagana
+                </p>
+              </label>
+
+              <label className="flex flex-col">
+                <span className="after:ml-0.5 after:text-red-500 after:content-['*']">
+                  Model
+                </span>
+                <input
+                  placeholder="Corolla"
+                  name="carModel"
+                  type="text"
+                  className="client peer"
+                  required
+                  value={formData.carModel}
+                  onChange={handleChange}
+                />
+                <p className="text-accent mt-1 hidden text-xs peer-invalid:block">
+                  Model jest wymagany
+                </p>
+              </label>
+            </div>
+
+            <div className="flex gap-3.5">
+              <label className="flex flex-col">
+                Rok Produkcji
+                <input
+                  placeholder="2010"
+                  name="productionYear"
+                  type="text"
+                  className="client peer"
+                  value={formData.productionYear}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label className="flex flex-col">
+                Przebieg
+                <input
+                  placeholder="150000"
+                  name="mileage"
+                  type="text"
+                  className="client peer"
+                  value={formData.mileage}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+
+            <div className="flex gap-3.5">
+              <label className="flex flex-col">
+                VIN
+                <input
+                  placeholder="1HGCM82633A123456"
+                  name="vin"
+                  type="text"
+                  className="client uppercase"
+                  maxLength={17}
+                  value={formData.vin}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label className="flex flex-col">
+                Nr Rejestracyjny
+                <input
+                  placeholder="WW1234X"
+                  name="registrationNumber"
+                  type="text"
+                  className="client uppercase"
+                  value={formData.registrationNumber}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+
+            <div className="flex gap-3.5">
+              <label className="flex w-full flex-col">
+                Typ silnika
+                <select
+                  name="engineType"
+                  className="client"
+                  value={formData.engineType}
+                  onChange={handleChange}
+                >
+                  <option value="Benzyna">Benzyna</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Elektryk">Elektryk</option>
+                  <option value="Hybryda">Hybryda</option>
+                </select>
+              </label>
+
+              <label className="flex flex-col">
+                Pojemność
+                <input
+                  placeholder={
+                    formData.engineType === "Elektryk"
+                      ? "Masz napęd elektryczny"
+                      : "1.6"
+                  }
+                  name="engineCapacity"
+                  type="text"
+                  className="client"
+                  value={formData.engineCapacity}
+                  onChange={handleChange}
+                  disabled={formData.engineType === "Elektryk"}
+                />
+              </label>
+            </div>
+            <div>
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="text-background bg-primary flex w-1/3 cursor-pointer items-center gap-2.5 rounded-2xl p-2 text-xl"
+              >
+                <FaCheck className="size-4" />
+                Dodaj
+              </button>
+            </div>
+
+            {successMessage && (
+              <div>
+                <p className="text-accent2">{successMessage}</p>
+              </div>
+            )}
+            {errorMessage && (
+              <div>
+                <p className="text-accent">{errorMessage}</p>
+              </div>
+            )}
+          </form>
+        </div>
+      </div>
+    </Overlay>
+  );
+}
+
+export default InputCarOverlay;
