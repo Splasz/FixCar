@@ -5,53 +5,88 @@ import { FaCarAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import supabase from "../../api/supabase";
 
-type StatsType = {
-  income: number;
-  tasks: number;
-  new_clients: number;
-  repairs: number;
-};
-
-type NewClientsStats = {
-  new_clients: number;
-};
-
 function DashboardStats() {
-  const [incomeStats, setIncomeStats] = useState<StatsType | null>(null);
-  const [tasksStats, setTasksStats] = useState<StatsType | null>(null);
-  const [clientStats, setClientStats] = useState<NewClientsStats | null>(null);
-  const [repairStats, setRepairStats] = useState<StatsType | null>(null);
+  type StatsType = {
+    new_clients: number;
+    income: number;
+    tasks: number;
+    repairsts: number;
+  };
+
+  const [clientStats, setClientStats] = useState<StatsType | null>(null);
+
+  const fetchClients = async (userId: string) => {
+    try {
+      const { data, error } = await supabase.rpc("new_clients", {
+        uid: userId,
+      });
+
+      if (error) throw error;
+
+      if (Array.isArray(data) && data.length > 0) {
+        setClientStats((prev) => ({
+          ...(prev ?? { income: 0, tasks: 0, repairsts: 0 }),
+          new_clients: data[0].new_clients,
+        }));
+      }
+    } catch (err: any) {
+      console.error("Błąd pobierania klientów:", err.message);
+    }
+  };
+
+  const fetchIncome = async () => {
+    try {
+      const { data, error } = await supabase.rpc("income");
+
+      if (error) throw error;
+
+      if (Array.isArray(data) && data.length > 0) {
+        setClientStats((prev) => ({
+          ...(prev ?? { new_clients: 0, tasks: 0, repairsts: 0 }),
+          income: data[0].income ?? 0,
+        }));
+      }
+    } catch (err: any) {
+      console.error("Błąd pobierania przychodu:", err.message);
+    }
+  };
+
+  const fetchTasks = async () => {
+    try {
+      const { data, error } = await supabase.rpc("tasksdata");
+
+      if (error) throw error;
+
+      if (Array.isArray(data) && data.length > 0) {
+        setClientStats((prev) => ({
+          ...(prev ?? { new_clients: 0, income: 0, repairsts: 0 }),
+          tasks: data[0].tasks,
+        }));
+      }
+    } catch (err: any) {
+      console.error("Błąd pobierania zadań:", err.message);
+    }
+  };
+
+  const fetchRepairs = async () => {
+    try {
+      const { data, error } = await supabase.rpc("repaired_cars");
+
+      if (error) throw error;
+
+      if (Array.isArray(data) && data.length > 0) {
+        setClientStats((prev) => ({
+          ...(prev ?? { new_clients: 0, income: 0, tasks: 0 }),
+          repairsts: data[0].repairs,
+        }));
+      }
+    } catch (err: any) {
+      console.error("Błąd pobierania napraw:", err.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchIncome = async () => {
-      const { data, error } = await supabase
-        .from("income")
-        .select("*")
-        .single();
-
-      if (data) {
-        setIncomeStats(data);
-      }
-      if (error) {
-        console.error(`Błąd połączenia z bazą: ${error.message}`);
-      }
-    };
-
-    const fetchTasks = async () => {
-      const { data, error } = await supabase
-        .from("tasksdata")
-        .select("*")
-        .single();
-
-      if (data) {
-        setTasksStats(data);
-      }
-      if (error) {
-        console.error(`Błąd połączenia z bazą: ${error.message}`);
-      }
-    };
-
-    const fetchClients = async () => {
+    const fetchAllStats = async () => {
       try {
         const {
           data: { user },
@@ -59,36 +94,19 @@ function DashboardStats() {
 
         if (!user) throw new Error("Użytkownik niezalogowany");
 
-        const { data, error } = await supabase.rpc("new_clients", {
-          uid: user.id,
-        });
-
-        if (error) throw error;
-
-        setClientStats({ new_clients: data[0].new_clients });
+        // Wywołujemy wszystkie funkcje
+        await Promise.all([
+          fetchClients(user.id),
+          fetchIncome(),
+          fetchTasks(),
+          fetchRepairs(),
+        ]);
       } catch (err: any) {
-        console.error("Błąd pobierania danych:", err.message);
+        console.error("Błąd inicjalizacji statystyk:", err.message);
       }
     };
 
-    const fetchRepairs = async () => {
-      const { data, error } = await supabase
-        .from("repaired_cars")
-        .select("*")
-        .single();
-
-      if (data) {
-        setRepairStats(data);
-      }
-      if (error) {
-        console.error(`Błąd połączenia z bazą: ${error.message}`);
-      }
-    };
-
-    fetchIncome();
-    fetchClients();
-    fetchTasks();
-    fetchRepairs();
+    fetchAllStats();
   }, []);
 
   return (
@@ -102,7 +120,7 @@ function DashboardStats() {
         </div>
         <div className="flex items-center justify-center gap-2.5 p-2.5 text-5xl">
           <div className="opacity-50">zł</div>
-          <div>{incomeStats?.income}</div>
+          <div>{clientStats?.income}</div>
         </div>
       </div>
 
@@ -114,7 +132,7 @@ function DashboardStats() {
           <div className="opacity-50">Zlecenia</div>
         </div>
         <div className="flex items-center justify-center gap-2.5 p-2.5 text-5xl">
-          <div>{tasksStats?.tasks}</div>
+          <div>{clientStats?.tasks}</div>
         </div>
       </div>
 
@@ -139,7 +157,7 @@ function DashboardStats() {
           <div className="opacity-50">Naprawione Auta</div>
         </div>
         <div className="flex items-center justify-center gap-2.5 p-2.5 text-5xl">
-          <div>{repairStats?.repairs}</div>
+          <div>{clientStats?.repairsts}</div>
         </div>
       </div>
     </div>

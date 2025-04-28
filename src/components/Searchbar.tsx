@@ -27,10 +27,15 @@ function Searchbar() {
 
     const fetchQuery = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("searchbar")
-        .select("*")
-        .ilike("pelne_imie", `%${query}%`);
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase.rpc("searchbar", {
+        query_text: query,
+        user_uuid: user?.id,
+      });
 
       setLoading(false);
 
@@ -47,7 +52,7 @@ function Searchbar() {
   }, [query]);
 
   return (
-    <div className="min-w-4/5 relative">
+    <div className="relative min-w-4/5">
       <div className="input-wrapper opacity-40">
         <GoSearch className="input-icon size-6" />
         <input
@@ -62,12 +67,12 @@ function Searchbar() {
       {loading && <p className="py-2">Ładowanie...</p>}
 
       {showResults && !loading && results.length > 0 && (
-        <div className="absolute z-10 w-full bg-white shadow-lg mt-1 max-h-60 rounded-2xl overflow-auto">
+        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-2xl bg-white shadow-lg">
           <ul>
             {results.map((item, index) => (
               <li
                 key={index}
-                className="p-2 hover:bg-gray-100 cursor-pointer border-b-1 border-highlight"
+                className="border-highlight cursor-pointer border-b-1 p-2 hover:bg-gray-100"
               >
                 {item.pelne_imie}
                 <span className="pl-2.5"> {item.pojazd}</span>
